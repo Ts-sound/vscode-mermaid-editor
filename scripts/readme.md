@@ -13,3 +13,7 @@ vsce package
 
 vsce publish
 ```
+
+```bash
+yarn upgrade mermaid@latest
+```
