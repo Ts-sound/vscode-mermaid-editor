@@ -119,8 +119,12 @@ export default class DiagramWebView extends Renderer<
       <div id="preview" class="mermaid">
       ${code}
       </div>
-      <script src="${mermaidUri}"></script>
-      <script>mermaid.initialize(${mermaidConfig});</script>
+      <script type="module">
+        import mermaid from '${mermaidUri}';
+        import zenuml from 'https://cdn.jsdelivr.net/npm/@mermaid-js/mermaid-zenuml@0.2.0/dist/mermaid-zenuml.core.mjs';
+        await mermaid.registerExternalDiagrams([zenuml]);
+        mermaid.initialize(${mermaidConfig});
+      </script>
       <script src="${scriptUri}"></script>
     </body>
     </html>`;

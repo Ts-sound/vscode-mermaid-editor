@@ -8,8 +8,14 @@
   "engines": {
     "vscode": "^1.75.0"
   },
-  "categories": ["Other"],
-  "keywords": ["mermaid", "uml", "diagram"],
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "mermaid",
+    "uml",
+    "diagram"
+  ],
   "galleryBanner": {
     "color": "#333333",
     "theme": "dark"
@@ -30,8 +36,14 @@
     "languages": [
       {
         "id": "mermaid",
-        "extensions": [".mmd", ".mermaid"],
-        "aliases": ["Mermaid", "mermaid"]
+        "extensions": [
+          ".mmd",
+          ".mermaid"
+        ],
+        "aliases": [
+          "Mermaid",
+          "mermaid"
+        ]
       }
     ],
     "configuration": [
@@ -40,7 +52,10 @@
         "title": "mermaid-editor configuration",
         "properties": {
           "mermaid-editor.preview.defaultMermaidConfig": {
-            "type": ["string", "null"],
+            "type": [
+              "string",
+              "null"
+            ],
             "default": null,
             "description": "Relative or absolute path to the default configuration json file for mermaid.js"
           },
@@ -57,11 +72,19 @@
           "mermaid-editor.generate.type": {
             "type": "string",
             "default": "svg",
-            "enum": ["svg", "png", "jpg", "webp"],
+            "enum": [
+              "svg",
+              "png",
+              "jpg",
+              "webp"
+            ],
             "description": "output file type [svg, png, jpg, webp]"
           },
           "mermaid-editor.generate.outputPath": {
-            "type": ["string", "null"],
+            "type": [
+              "string",
+              "null"
+            ],
             "default": null,
             "description": "relative path to the output target directory from project root"
           },
@@ -298,9 +321,10 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "5.15.4",
+    "@mermaid-js/mermaid-zenuml": "^0.2.2",
     "cross-fetch": "^4.0.0",
     "lodash": ">=4.17.21",
-    "mermaid": "^10.3.0",
+    "mermaid": "^11.12.2",
     "redux": "^4.0.5"
   },
   "resolutions": {
