@@ -217,7 +217,10 @@ export function activate(context: vscode.ExtensionContext): void {
           constants.MESSAGE_UPDATE_MERMAID_LIBRARY('the user value')
         );
       } catch (e) {
-        vscode.window.showErrorMessage('test: error');
+        const err = e as Error;
+        vscode.window.showErrorMessage(
+          ' error : ' + err.name + ' ' + err.message
+        );
       }
     }
   });

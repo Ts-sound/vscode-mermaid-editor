@@ -4,6 +4,7 @@ import FileSystemService from '../models/FileSystemService';
 import MermaidLibraryService, {
   MermaidLibraryChangeEvent
 } from '../controllers/MermaidLibraryService';
+import Logger from '../Logger';
 
 // for test
 export const KEY_MERMAID_LIBRARY = 'mermaidLibrary';
@@ -81,6 +82,8 @@ export default class MermaidLibraryProvider implements MermaidLibraryService {
       KEY_MERMAID_LIBRARY
     );
     if (libraryPath) {
+      Logger.appendLine('libraryPath :');
+      Logger.appendLine(libraryPath.toString());
       return vscode.Uri.parse(libraryPath);
     } else {
       return this._getIntegratedLibraryUri();
@@ -90,12 +93,14 @@ export default class MermaidLibraryProvider implements MermaidLibraryService {
   public setLibrary(path: string, version?: string) {
     const libraryUri = vscode.Uri.parse(path, true);
     if (
-      !['https', 'http'].includes(libraryUri.scheme) ||
-      !this._whiteList.includes(libraryUri.authority)
+      !['https', 'http', 'file'].includes(libraryUri.scheme)
+      // ||    !this._whiteList.includes(libraryUri.authority)
     ) {
       throw new Error(`${path} is not supported.`);
     }
-    this._globalState.update(KEY_MERMAID_LIBRARY, libraryUri.toString());
+    Logger.appendLine('libraryUri(path):');
+    Logger.appendLine(path);
+    this._globalState.update(KEY_MERMAID_LIBRARY, path);
     this._globalState.update(KEY_MERMAID_LIBRARY_VERSION, version);
     this._eventEmitter.fire({
       version,
