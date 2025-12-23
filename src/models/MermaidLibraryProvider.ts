@@ -49,7 +49,17 @@ export default class MermaidLibraryProvider implements MermaidLibraryService {
       path.join(
         this._extensionPath,
         'dist/vendor',
-        'mermaid/dist/mermaid.min.js'
+        'mermaid/dist/mermaid.esm.min.mjs'
+      )
+    );
+  }
+
+  public getIntegrated_ZenUml_LibraryUri(): vscode.Uri {
+    return this._fileSystemService.file(
+      path.join(
+        this._extensionPath,
+        'dist/vendor',
+        '@mermaid-js/mermaid-zenuml/dist/mermaid-zenuml.esm.min.mjs'
       )
     );
   }
@@ -93,7 +103,7 @@ export default class MermaidLibraryProvider implements MermaidLibraryService {
   public setLibrary(path: string, version?: string) {
     const libraryUri = vscode.Uri.parse(path, true);
     if (
-      !['https', 'http', 'file'].includes(libraryUri.scheme)
+      !['https', 'http'].includes(libraryUri.scheme)
       // ||    !this._whiteList.includes(libraryUri.authority)
     ) {
       throw new Error(`${path} is not supported.`);

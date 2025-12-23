@@ -13,6 +13,7 @@ import {
 import Renderer, { RendererError } from './Renderer';
 import { ViewState, ViewStateAction } from '../controllers/viewStateStore';
 import MermaidLibraryService from '../controllers/MermaidLibraryService';
+import Logger from '../Logger';
 
 type ShowOptions = {
   preserveFocus: boolean;
@@ -99,7 +100,8 @@ export default class DiagramWebView extends Renderer<
     mermaidConfig: string,
     scriptUri: vscode.Uri,
     mermaidUri: vscode.Uri,
-    fontawesomeCssUri: vscode.Uri
+    fontawesomeCssUri: vscode.Uri,
+    zenumlUrl: vscode.Uri
   ): string {
     return `
     <!DOCTYPE html>
@@ -119,9 +121,12 @@ export default class DiagramWebView extends Renderer<
       <div id="preview" class="mermaid">
       ${code}
       </div>
+      <!--  <script src="${mermaidUri}"></script>
+      <script>mermaid.initialize(${mermaidConfig});</script>  -->
       <script type="module">
         import mermaid from '${mermaidUri}';
-        import zenuml from 'https://cdn.jsdelivr.net/npm/@mermaid-js/mermaid-zenuml@0.2.0/dist/mermaid-zenuml.core.mjs';
+        import zenuml from '${zenumlUrl}';
+        
         await mermaid.registerExternalDiagrams([zenuml]);
         mermaid.initialize(${mermaidConfig});
       </script>
@@ -206,6 +211,16 @@ export default class DiagramWebView extends Renderer<
         ? this._panel.webview.asWebviewUri(libraryUri)
         : libraryUri;
 
+    const zenumlUrl = this._panel.webview.asWebviewUri(
+      this._fileSystemService.file(
+        path.join(
+          this._extensionPath,
+          'dist/vendor',
+          '@mermaid-js/mermaid-zenuml/dist/mermaid-zenuml.esm.min.mjs'
+        )
+      )
+    );
+
     const fontawesomeCssUri = this._panel.webview.asWebviewUri(
       this._fileSystemService.file(
         path.join(
@@ -224,8 +239,12 @@ export default class DiagramWebView extends Renderer<
       mergedConfig,
       scriptUri,
       mermaidUri,
-      fontawesomeCssUri
+      fontawesomeCssUri,
+      zenumlUrl
     );
+
+    Logger.appendLine('webbiew.html:');
+    Logger.appendLine(this._panel.webview.html);
   }
 
   // override

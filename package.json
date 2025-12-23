@@ -2,7 +2,7 @@
   "name": "vscode-mermaid-editor",
   "displayName": "Mermaid Editor",
   "description": "Live editor for mermaid.js in Visual Studio Code",
-  "version": "0.19.2",
+  "version": "0.19.3",
   "publisher": "tomoyukim",
   "license": "MIT",
   "engines": {
@@ -325,7 +325,9 @@
     "cross-fetch": "^4.0.0",
     "lodash": ">=4.17.21",
     "mermaid": "^11.12.2",
-    "redux": "^4.0.5"
+    "nanoid": "^5.1.6",
+    "redux": "^4.0.5",
+    "yaml": "^2.8.2"
   },
   "resolutions": {
     "nanoid": "3.1.31"

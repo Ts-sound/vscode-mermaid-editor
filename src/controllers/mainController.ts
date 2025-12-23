@@ -175,7 +175,7 @@ class MainController {
     });
     this._diagramWebView?.onDidViewRenderRequested(() => {
       this._errorMessageQueue.clear();
-      Logger.clear();
+      // Logger.clear();
     });
 
     this._diagramWebView?.bind(

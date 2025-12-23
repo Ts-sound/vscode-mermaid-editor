@@ -42,6 +42,7 @@ const config = {
     new CopyPlugin({
       patterns: [
         { from: "node_modules/mermaid", to: "vendor/mermaid" },
+        { from: "node_modules/@mermaid-js", to: "vendor/@mermaid-js" },
         { from: "node_modules/@fortawesome/fontawesome-free", to: "vendor/fontawesome" }
       ]
     })
