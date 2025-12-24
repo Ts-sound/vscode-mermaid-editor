@@ -147,6 +147,75 @@ export function initializeMermaidRenderer() {
       mermaid.init();
     }
 
+    // exportAsSVG
+    function exportAsSVG(svgElement, bgColor) {
+      try {
+        // 获取SVG的尺寸
+        const bbox = svgElement.getBBox();
+        const width = bbox.width + bbox.x;
+        const height = bbox.height + bbox.y;
+
+        // 创建新的SVG
+        const newSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        newSvg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+        newSvg.setAttribute('width', width);
+        newSvg.setAttribute('height', height);
+        newSvg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+
+        // 创建foreignObject来包含原始SVG
+        const foreignObject = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
+        foreignObject.setAttribute('width', '100%');
+        foreignObject.setAttribute('height', '100%');
+
+        // 克隆原始SVG
+        const svgClone = svgElement.cloneNode(true);
+        svgClone.setAttribute('width', '100%');
+        svgClone.setAttribute('height', '100%');
+
+        // 创建div来包裹SVG
+        const div = document.createElement('div');
+        div.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
+        div.appendChild(svgClone);
+
+        // 复制所有样式
+        const styleSheets = Array.from(document.styleSheets)
+          .filter(sheet => {
+            try { return sheet.cssRules; }
+            catch (e) { return false; }
+          })
+          .map(sheet => {
+            return Array.from(sheet.cssRules)
+              .map(rule => rule.cssText)
+              .join('\n');
+          })
+          .join('\n');
+
+        const style = document.createElement('style');
+        style.textContent = styleSheets;
+        div.appendChild(style);
+
+        foreignObject.appendChild(div);
+        newSvg.appendChild(foreignObject);
+
+        //backgroundColor
+        if (bgColor && bgColor !== 'transparent') {
+          newSvg.style.backgroundColor = bgColor;
+        }
+        //
+        const svgString = new XMLSerializer().serializeToString(newSvg);
+        const svgBlob = new Blob([svgString], { type: 'image/svg+xml' });
+        // const svgUrl = URL.createObjectURL(svgBlob);
+
+        return svgString;
+
+      } catch (error) {
+        console.error('导出SVG出错:', error);
+        console.error('导出SVG出错:', error.message);
+        return "";
+      }
+    }
+
+
     // init
     function init() {
       const state = getState();
@@ -196,10 +265,14 @@ export function initializeMermaidRenderer() {
 
           const bgColor = getComputedStyle(body).backgroundColor;
           const svg = preview.querySelector('svg');
-          if (bgColor && bgColor !== 'transparent') {
-            svg.style.backgroundColor = bgColor;
-          }
-          const xml = new XMLSerializer().serializeToString(svg);
+
+          // if (bgColor && bgColor !== 'transparent') {
+          //   svg.style.backgroundColor = bgColor;
+          // }
+          // const xml = new XMLSerializer().serializeToString(svg);
+
+          const xml = exportAsSVG(svg, bgColor);
+
           const data = btoa(unescape(encodeURIComponent(xml)));
 
           const toClipboard = target === 'clipboard';

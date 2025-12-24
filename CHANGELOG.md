@@ -18,6 +18,12 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ### Security
 
+## [0.19.5] - 2025-12-25
+
+- 修复 `zenuml` svg 导出问题 (同时导出所有样式) 
+  - 该修复会导致 svg 文件体积变大
+  - 等官方修复后 所有样式导
+
 ## [0.19.4] - 2025-12-24
 
 - Support `zenuml`
