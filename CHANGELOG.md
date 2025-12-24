@@ -18,6 +18,20 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ### Security
 
+## [0.19.4] - 2025-12-24
+
+- Support `zenuml`
+- update `mermaid` version to 11.12.2
+- update `mermaid-zenuml` version to 0.2.2
+
+### bugs
+
+- zenuml 渲染正常，但导出的 svg 图片样式有问题
+
+### Changed
+
+- Upscale the logo
+
 ## [0.19.1] - 2023-8-31
 
 ### Changed
